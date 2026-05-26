@@ -1,6 +1,0 @@
-{
-  "name": "Json View Parser",
-  "description": "A feature-rich, fully client-side JSON parser, validator, formatter, minifier, and interactive tree visualizer.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
