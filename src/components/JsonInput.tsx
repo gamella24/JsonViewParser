@@ -252,8 +252,7 @@ export default function JsonInput({
           spellCheck={false}
           autoComplete="off"
           autoCorrect="off"
-          className="flex-1 bg-transparent font-mono text-xs p-4 focus:outline-hidden leading-relaxed text-neutral-800 dark:text-slate-200 min-h-0 w-full overflow-y-auto resize-none"
-          //className="flex-1 bg-transparent font-mono text-xs p-4 focus:outline-hidden leading-relaxed text-neutral-800 dark:text-slate-200 min-h-0 h-full w-full overflow-y-auto resize-none"
+          className="flex-1 bg-transparent font-mono text-xs p-4 focus:outline-hidden leading-relaxed text-neutral-800 dark:text-slate-200 min-h-0 h-full w-full overflow-y-auto resize-none"
           placeholder={`Paste JSON here or drop a file to begin...\n\ne.g.,\n{\n  "title": "Config",\n  "enabled": true\n}`}
         />
       </div>

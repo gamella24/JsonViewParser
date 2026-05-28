@@ -140,6 +140,40 @@ export function minifyJson(data: any): string {
 }
 
 /**
+ * Recursively shuffles arrays and object properties of a parsed JSON structure.
+ */
+export function shuffleJson(data: any): any {
+  if (data === null || typeof data !== "object") {
+    return data;
+  }
+
+  if (Array.isArray(data)) {
+    // Copy the array elements (without recursively shuffling them)
+    const shuffledElements = [...data];
+    // Perform Fisher-Yates shuffle on the top-level array elements
+    for (let i = shuffledElements.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledElements[i], shuffledElements[j]] = [shuffledElements[j], shuffledElements[i]];
+    }
+    return shuffledElements;
+  }
+
+  // It is a standard object
+  const keys = Object.keys(data);
+  // Perform Fisher-Yates shuffle on the keys array
+  for (let i = keys.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [keys[i], keys[j]] = [keys[j], keys[i]];
+  }
+
+  const shuffledObject: Record<string, any> = {};
+  for (const key of keys) {
+    shuffledObject[key] = data[key]; // Maintain the inner object values exactly as they are without recursive shuffling
+  }
+  return shuffledObject;
+}
+
+/**
  * Computes statistical metadata regarding structural depth, node counts, types, etc.
  */
 export function computeJsonMetadata(data: any, rawText: string): JsonMetadata {

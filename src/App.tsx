@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { Braces, FolderTree, BarChart3, ShieldCheck, AlertTriangle, CheckCircle2, Sun, Moon, Info, Search, ArrowRight, Keyboard, X } from "lucide-react";
+import { Braces, FolderTree, BarChart3, ShieldCheck, AlertTriangle, CheckCircle2, Sun, Moon, Info, Search, ArrowRight, Keyboard, X, Shuffle } from "lucide-react";
 import JsonInput from "./components/JsonInput";
 import JsonTree from "./components/JsonTree";
 import JsonStats from "./components/JsonStats";
@@ -15,7 +15,8 @@ import {
   formatJson,
   minifyJson,
   computeJsonMetadata,
-  getSampleJson
+  getSampleJson,
+  shuffleJson
 } from "./utils/jsonUtils";
 import { JsonMetadata, JsonParseError } from "./types";
 
@@ -227,6 +228,29 @@ export default function App() {
     }
   };
 
+  // Perform structured in-memory random shuffle of JSON keys and arrays
+  const handleShuffleJson = () => {
+    if (!parsedData) return;
+    try {
+      const shuffled = shuffleJson(parsedData);
+      setParsedData(shuffled);
+      
+      const formatted = formatJson(shuffled, 2);
+      setRawText(formatted);
+      setFormattedText(formatted);
+      setParseError(null);
+      
+      const stats = computeJsonMetadata(shuffled, formatted);
+      setMetadata(stats);
+      
+      // Flash elegant success state feedback
+      setIsSuccessFeedback(true);
+      setTimeout(() => setIsSuccessFeedback(false), 1200);
+    } catch (err) {
+      console.error("Failed to shuffle JSON:", err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0A0A0B] text-neutral-800 dark:text-slate-300 transition-colors flex flex-col font-sans">
       
@@ -328,7 +352,7 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch flex-1">
           
           {/* Left panel wrapper - Workspace Input */}
-          <section className="lg:col-span-5 flex flex-col min-h-0 h-full">
+          <section className="lg:col-span-5 h-[500px] lg:h-[780px] flex flex-col min-h-0">
             <div className="h-9 flex items-center justify-between mb-2 shrink-0">
               <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider font-sans">
                 Input
@@ -364,7 +388,7 @@ export default function App() {
           </div>
 
           {/* Right panel wrapper - Output Exploration */}
-          <section className="lg:col-span-6 flex flex-col min-h-0 h-full">
+         <section className="lg:col-span-5 h-[500px] lg:h-[780px] flex flex-col min-h-0">
             <div className="h-9 flex items-center justify-between mb-2 shrink-0">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider font-sans">
@@ -452,7 +476,7 @@ export default function App() {
                 {activeTab === "formatted" && (
                   <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
                     {parsedData ? (
-                      <JsonCodeView formattedText={formattedText} searchQuery={searchQuery} />
+                      <JsonCodeView formattedText={formattedText} searchQuery={searchQuery} onShuffle={handleShuffleJson} />
                     ) : (
                       <div className="flex flex-col items-center justify-center p-8 text-center text-neutral-400 flex-1 border border-dashed border-neutral-200 dark:border-neutral-800 rounded-xl bg-slate-50/10 dark:bg-neutral-900/10">
                         <Braces size={32} className="text-zinc-300 dark:text-zinc-700 mb-3" />
@@ -488,7 +512,6 @@ export default function App() {
           </section>
 
         </div>
-
 
       </main>
 

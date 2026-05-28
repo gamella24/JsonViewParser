@@ -4,14 +4,15 @@
  */
 
 import React, { useMemo, useState, useRef } from "react";
-import { Copy, Download, Search, Check, FileJson } from "lucide-react";
+import { Copy, Download, Search, Check, FileJson, Shuffle } from "lucide-react";
 
 interface JsonCodeViewProps {
   formattedText: string;
   searchQuery: string;
+  onShuffle?: () => void;
 }
 
-export default function JsonCodeView({ formattedText, searchQuery }: JsonCodeViewProps) {
+export default function JsonCodeView({ formattedText, searchQuery, onShuffle }: JsonCodeViewProps) {
   const [copySuccess, setCopySuccess] = useState(false);
   const gutterRef = useRef<HTMLDivElement>(null);
 
@@ -125,6 +126,19 @@ export default function JsonCodeView({ formattedText, searchQuery }: JsonCodeVie
 
         {/* Action button row */}
         <div className="flex items-center gap-2">
+          {onShuffle && (
+            <button
+              type="button"
+              id="btn-shuffle-json"
+              onClick={onShuffle}
+              className="flex items-center gap-1.5 text-xs font-sans px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-slate-800 bg-neutral-50 hover:bg-neutral-100 dark:bg-[#141417] dark:hover:bg-[#1C1C21] text-neutral-700 dark:text-neutral-200 cursor-pointer select-none transition-all hover:scale-[1.02] active:scale-[0.98]"
+              title="Shuffle JSON keys and array elements randomly"
+            >
+              <Shuffle size={12} className="text-emerald-500" />
+              <span>Shuffle</span>
+            </button>
+          )}
+
           <button
             type="button"
             id="btn-copy-formatted"
