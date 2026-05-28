@@ -349,7 +349,7 @@ export default function App() {
         )}
 
         {/* Dynamic Split Panel Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-11 gap-4 items-stretch flex-1">
           
           {/* Left panel wrapper - Workspace Input */}
           <section className="lg:col-span-5 h-[500px] lg:h-[780px] flex flex-col min-h-0">
